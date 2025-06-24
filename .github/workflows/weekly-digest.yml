@@ -1,9 +1,9 @@
 name: Weekly Hyper-Growth Digest
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 9 * * MON'
+  workflow_dispatch: {}     # manual trigger
+  schedule:                 # automatic schedule
+    - cron: '0 9 * * MON'   # every Monday at 09:00 UTC
 
 jobs:
   digest:
