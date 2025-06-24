@@ -1,14 +1,13 @@
 name: Weekly Hyper-Growth Digest
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 9 * * MON'
-  workflow_dispatch: {}
 
 jobs:
   digest:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -18,7 +17,7 @@ jobs:
           echo "Working directory:"
           pwd
           echo
-          echo "Repository contents:"
+          echo "Contents:"
           ls -R .
 
       - name: Set up Python
@@ -29,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: pip install requests beautifulsoup4 pandas
 
-      - name: Scrape hyper-growth repos
+      - name: Scrape trending repos
         run: python scripts/scrape_trending.py
 
       - name: Send newsletter (dry run)
