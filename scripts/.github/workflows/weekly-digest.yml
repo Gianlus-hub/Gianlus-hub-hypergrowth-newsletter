@@ -1,0 +1,30 @@
+name: Weekly Hyper-Growth Digest
+
+on:
+  workflow_dispatch:   # allows you to run it manually
+  schedule:
+    - cron: '0 9 * * MON'  # will run Monday 09:00 UTC once live
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4 pandas
+
+      - name: Scrape hyper-growth repos
+        run: python scripts/scrape_trending.py
+
+      - name: Send newsletter (dry run)
+        env:
+          DRY_RUN:         "true"
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+        run: python scripts/send_newsletter.py
