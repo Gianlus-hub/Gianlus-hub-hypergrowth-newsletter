@@ -1,23 +1,21 @@
 name: Weekly Hyper-Growth Digest
 
 on:
-  workflow_dispatch:
   schedule:
     - cron: '0 9 * * MON'
+  workflow_dispatch: {}
 
 jobs:
   digest:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Debug: list project files
         run: |
-          echo "Working directory:"
-          pwd
-          echo
-          echo "Contents:"
+          echo "Working directory: $(pwd)"
           ls -R .
 
       - name: Set up Python
@@ -33,6 +31,6 @@ jobs:
 
       - name: Send newsletter (dry run)
         env:
-          DRY_RUN:         "true"
+          DRY_RUN: "true"
           RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
         run: python scripts/send_newsletter.py
