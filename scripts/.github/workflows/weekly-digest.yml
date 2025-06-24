@@ -1,18 +1,27 @@
 name: Weekly Hyper-Growth Digest
 
 on:
-  workflow_dispatch:   # allows you to run it manually
-  schedule:
-    - cron: '0 9 * * MON'  # will run Monday 09:00 UTC once live
+  workflow_dispatch: {}      # allows manual runs
+  schedule:                  # auto‐run every Monday at 09:00 UTC
+    - cron: '0 9 * * MON'
 
 jobs:
   digest:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Python 3.x
+      - name: Debug: list project files
+        run: |
+          echo "Working directory:"
+          pwd
+          echo
+          echo "Repository contents:"
+          ls -R .
+
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
