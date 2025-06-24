@@ -1,36 +1,13 @@
-name: Weekly Hyper-Growth Digest
+name: Test Hyper-Growth Workflow
 
 on:
-  schedule:
-    - cron: '0 9 * * MON'
-  workflow_dispatch: {}
+  workflow_dispatch:
 
 jobs:
-  digest:
+  test:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Debug: list project files
+      - name: List project files
         run: |
-          echo "Working directory: $(pwd)"
+          echo "Working dir: $(pwd)"
           ls -R .
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-
-      - name: Install dependencies
-        run: pip install requests beautifulsoup4 pandas
-
-      - name: Scrape trending repos
-        run: python scripts/scrape_trending.py
-
-      - name: Send newsletter (dry run)
-        env:
-          DRY_RUN: "true"
-          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
-        run: python scripts/send_newsletter.py
